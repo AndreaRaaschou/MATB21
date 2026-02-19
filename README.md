@@ -1,11 +1,16 @@
 # MATB21
 
+## notates
 
 
-yoo se her andrea se hur kult ! gätte kult!!
+vi gjör ulika tasks i ulika filor
 
-## wowow
+### plan task 1
 
-### wiwiwi
+1. gör funktion för alla funktionerna (f1,...f5)
+2. gör plot funktion (plot_function_surface, plot_function_contour)
+3. kombiner
 
-# wacky!
+### plan task 2
+
+do what it says
