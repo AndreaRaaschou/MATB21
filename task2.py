@@ -56,7 +56,13 @@ def sinus_test(x, y):
     return(np.sin(x+y))
 
 def error_gradient(x,y):
-    return(np.linalg.norm(((numerical_gradient(sinus_test)(x, y)[0])-np.cos(x, y))*np.sqrt(2)))
+    error = (numerical_gradient(sinus_test)(x, y)[0] - np.cos(x + y), numerical_gradient(sinus_test)(x, y)[0] - np.cos(x + y))
+    error = np.linalg.norm(error, axis = 0)
+    return error
+
+def error_hessian(x,y):
+    error = np.abs(numerical_hessian(sinus_test, h=10**(-4))(x, y)[0][0] + np.sin(x + y)) * 2
+    return error
 
 def plot_changing_h(start, stop):
     '''
@@ -117,6 +123,8 @@ if SINTEST_HESSIAN:
     
     print("\nApproximated Hessian error (will be same for all entries):")
     print(numerical_hessian(sinus_test)(a, b)[0][0]+np.sin(a+b))
+    
+    t1.plot_function(error_hessian, -np.pi, np.pi, -np.pi, np.pi)
     
     
           

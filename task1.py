@@ -11,7 +11,7 @@ from matplotlib import ticker
 
 def f1(x, y):
     with np.errstate(divide='ignore', invalid='ignore'):
-        z = (x**2 - x*y) / x**2 - y**2
+        z = (x**2 - x*y) / (x**2 - y**2)
     return z
 
 def f2(x, y):
@@ -51,6 +51,7 @@ def plot_function(f, x_start, x_stop, y_start, y_stop):
     
     # contour plot
     ax2 = fig.add_subplot(122)
+
     
     if np.any(Z <= 0): # if any values are 0 or negative - do not add valuescale
         Z = np.where(np.isfinite(Z), Z, np.nan)
@@ -65,6 +66,7 @@ def plot_function(f, x_start, x_stop, y_start, y_stop):
         ax2.set_xlabel('X')
         ax2.set_ylabel('Y')
         ax2.set_title(f'{f.__name__} contour plot')
+            
         
     fig.show()
     

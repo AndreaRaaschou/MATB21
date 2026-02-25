@@ -17,7 +17,28 @@ def func(z):
     dzdy = - 2 / (1 + 2*np.e**(2*z))
     return [dzdx, dzdy]
 
-w = f(0,0,0)
+
 
 #root = fsolve(func, 0)
-root = fsolve(f, 0, args = (0,0))
+x = np.linspace(-1, 1, 10)
+y = np.linspace(-1, 1, 10)
+X, Y = np.meshgrid(x, y)
+
+
+root = []
+for x_i in x:
+    for y_i in y:
+        root.append(fsolve(f, 0, args = (x_i,y_i)))
+root = np.array(root)
+root = np.reshape(root, (10, 10))
+
+
+# surface plot
+fig = plt.figure(figsize=(12, 5))
+ax1 = fig.add_subplot(121, projection='3d')
+ax1.plot_surface(X, Y, root)
+ax1.set_title(f'Z surface plot')
+ax1.set_xlabel('X')
+ax1.set_ylabel('Y')
+ax1.set_zlabel('Z')
+
