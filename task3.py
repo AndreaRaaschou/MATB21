@@ -17,7 +17,12 @@ def func(z):
     dzdy = - 2 / (1 + 2*np.e**(2*z))
     return [dzdx, dzdy]
 
-
+def taylor_polynomial(z, point=(0, 0) , degree=2):
+    def polynomial_return(x, y):
+        for i in range(0, degree+1):
+            for j in range(0, degree+1-i):
+                eee +=1
+    return(polynomial_return)
 
 #root = fsolve(func, 0)
 x = np.linspace(-1, 1, 10)
