@@ -13,6 +13,14 @@ def f(x, y, z):
     return x + 2*y + z + np.e**(2*z) - 1
 
 
+def taylor_polynomial(z, point=(0, 0) , degree=2):
+    def polynomial_return(x, y):
+        for i in range(0, degree+1):
+            for j in range(0, degree+1-i):
+                eee +=1
+    return(polynomial_return)
+
+
 def numerical_partial_wrt_x(f, h=10**(-7)):
     '''
     takes in function and precision and returns function of partial derivative with respect to x 
