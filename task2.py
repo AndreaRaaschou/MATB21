@@ -11,7 +11,7 @@ SINTEST_GRAD = True
 SINTEST_HESSIAN = True
 EQTEST_5 = True
 
-def numerical_partial_wrt_x(f, h=10**(-8)):
+def numerical_partial_wrt_x(f, h=10**(-7)):
     '''
     takes in function and precision and returns function of partial derivative with respect to x 
     '''
@@ -20,7 +20,7 @@ def numerical_partial_wrt_x(f, h=10**(-8)):
     return(return_function)
 
 
-def numerical_partial_wrt_y(f, h=10**(-8)):
+def numerical_partial_wrt_y(f, h=10**(-7)):
     '''
     takes in function and precision and returns function of partial derivative with respect to y 
     '''
@@ -29,7 +29,7 @@ def numerical_partial_wrt_y(f, h=10**(-8)):
     return(return_function)
 
 
-def numerical_gradient(f, h=10**(-8)):
+def numerical_gradient(f, h=10**(-7)):
     '''
     takes in function and precision and returns function of gradiant at a point
     '''
@@ -41,7 +41,7 @@ def numerical_gradient(f, h=10**(-8)):
     return (return_function)
 
 
-def numerical_hessian(f, h=10**(-8)):
+def numerical_hessian(f, h=10**(-7)):
     '''
     takes in function and precision and returns the hessian
     '''
@@ -60,7 +60,7 @@ def plot_changing_h(start, stop):
     takes in first and last h-values and plots the euclidean norm of the error 
     different h-values
     '''
-    h = np.logspace(np.log10(start), np.log10(stop), 50)
+    h = np.logspace(np.log10(start), np.log10(stop), 100)
     a, b = np.pi/4, np.pi/4
     errors = []
     
@@ -73,7 +73,7 @@ def plot_changing_h(start, stop):
     ax.loglog(h, errors, '.')
     ax.set_xlabel('h')
     ax.set_ylabel('Error (euclidean norm)')
-    ax.set_title('What happens with the error when you change h?')
+    ax.set_title('What happens with the error when you change h? (a,b) = (pi/4, pi/4)')
     fig.show()
 
 
@@ -87,14 +87,15 @@ if SINTEST_GRAD:
         float(numerical_gradient(sinus_test)(a, b)[0]), 
         float(numerical_gradient(sinus_test)(a, b)[1])
     ))
-    '''
+    
+    print("\nAnalytical gradient:")
+    print("(0, 0)")
+    
+    print("\nApproximated gradient error:")
     print ((
         float(numerical_gradient(sinus_test)(a, b)[0]-np.cos(a+b)), 
         float(numerical_gradient(sinus_test)(a, b)[1]-np.cos(a+b))
     ))
-    '''
-    print("\nAnalytical gradient:")
-    print("(0, 0)")
     
     plot_changing_h(10**(-9), 10**(-1))
 
@@ -110,6 +111,8 @@ if SINTEST_HESSIAN:
     print("\nAnalytical Hessian:")
     print("-1   -1")
     print("-1   -1")
+    
+    
           
 if EQTEST_5:
     # Testing f5 which has critical points at (±1, 0)

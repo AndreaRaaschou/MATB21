@@ -10,21 +10,18 @@ import  matplotlib.pyplot as plt
 from matplotlib import ticker
 
 def f1(x, y):
-    denom = x**2 - y**2
     with np.errstate(divide='ignore', invalid='ignore'):
-        z = (x**2 - x*y) / denom
+        z = (x**2 - x*y) / x**2 - y**2
     return z
 
 def f2(x, y):
-    demon = (x**2 + x*y + y**2)
     with np.errstate(divide='ignore', invalid='ignore'):
-        z = (x**2 + y**2)/demon
+        z = (x**2 + y**2)/ (x**2 + x*y + y**2)
     return z
 
 def f3(x, y):
-    denom = (x**3*(y + 1)**3)
     with np.errstate(divide='ignore', invalid='ignore'):
-        z = (np.sin(x + x*y) - x - x*y)/denom
+        z = (np.sin(x + x*y) - x - x*y)/ (x**3*(y + 1)**3)
     return z
     
 def f4(x, y):
