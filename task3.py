@@ -12,10 +12,6 @@ from scipy.optimize import fsolve
 def f(x, y, z):
     return x + 2*y + z + np.e**(2*z) - 1
 
-def func(z):
-    dzdx = - 1 / (1 + 2*np.e**(2*z))
-    dzdy = - 2 / (1 + 2*np.e**(2*z))
-    return [dzdx, dzdy]
 
 def numerical_partial_wrt_x(f, h=10**(-7)):
     '''
@@ -42,26 +38,26 @@ def numerical_partial_wrt_z(f, h=10**(-7)):
         return((f(x, y, z+h) - f(x,y, z))/h)
     return(return_function)
 
-#root = fsolve(func, 0)
+def plot_3D_surface(x, y, z):
+    X, Y = np.meshgrid(x, y)
+    fig = plt.figure(figsize=(12, 5))
+    ax1 = fig.add_subplot(121, projection='3d')
+    ax1.plot_surface(X, Y, root)
+    ax1.set_title('Z surface plot')
+    ax1.set_xlabel('X')
+    ax1.set_ylabel('Y')
+    ax1.set_zlabel('Z')
+    fig.show()
+    
+   
+# approximate z
 x = np.linspace(-1, 1, 100)
 y = np.linspace(-1, 1, 100)
-X, Y = np.meshgrid(x, y)
-
 
 root = []
 for x_i in x:
     for y_i in y:
         root.append(fsolve(f, 0, args = (x_i,y_i)))
-root = np.array(root)
-root = np.reshape(root, (100, 100))
-
-
-# surface plot for z(x,y)
-fig = plt.figure(figsize=(12, 5))
-ax1 = fig.add_subplot(121, projection='3d')
-ax1.plot_surface(X, Y, root)
-ax1.set_title(f'Z surface plot')
-ax1.set_xlabel('X')
-ax1.set_ylabel('Y')
-ax1.set_zlabel('Z')
-
+root = np.reshape(np.array(root), (100, 100))
+    
+plot_3D_surface(x, y, root)
