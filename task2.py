@@ -55,6 +55,9 @@ def numerical_hessian(f, h=10**(-7)):
 def sinus_test(x, y):
     return(np.sin(x+y))
 
+def error_gradient(x,y):
+    return(np.linalg.norm(((numerical_gradient(sinus_test)(x, y)[0])-np.cos(x, y))*np.sqrt(2)))
+
 def plot_changing_h(start, stop):
     '''
     takes in first and last h-values and plots the euclidean norm of the error 
@@ -98,6 +101,7 @@ if SINTEST_GRAD:
     ))
     
     plot_changing_h(10**(-9), 10**(-1))
+    t1.plot_function(error_gradient, -np.pi, np.pi, -np.pi, np.pi)
 
 if SINTEST_HESSIAN:
     a, b = np.pi/4, np.pi/4
