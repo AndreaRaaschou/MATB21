@@ -66,7 +66,7 @@ def plot_changing_h(start, stop):
     
     for h_i in h:
         error = numerical_gradient(sinus_test, h_i)(a,b)
-        error_norm = np.linalg.norm(error, axis=0)
+        error_norm = np.linalg.norm(error)
         errors.append(error_norm)
   
     fig, ax = plt.subplots()
@@ -102,7 +102,6 @@ if SINTEST_GRAD:
 if SINTEST_HESSIAN:
     a, b = np.pi/4, np.pi/4
     hessian = numerical_hessian(sinus_test)(a, b)
-    #print(numerical_hessian(sinus_test)(a, b)[0][0]+np.sin(a+b))
     
     print("\nApproximated Hessian:")
     print(f'{hessian[0][0]}  {hessian[0][1]}')
@@ -111,6 +110,9 @@ if SINTEST_HESSIAN:
     print("\nAnalytical Hessian:")
     print("-1   -1")
     print("-1   -1")
+    
+    print("\nApproximated Hessian error (will be same for all entries):")
+    print(numerical_hessian(sinus_test)(a, b)[0][0]+np.sin(a+b))
     
     
           
