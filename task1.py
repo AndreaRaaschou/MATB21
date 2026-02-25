@@ -2,14 +2,12 @@
 """
 Created on Thu Feb 19 13:36:51 2026
 @author: andrearaaschou
+
+Task 1: Visualize all functions using plot_surface() and contourf() 
 """
 import numpy as np
 import  matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import ticker
-
-# Task 1
-# Visualize all functions using plot_surface() and contourf() 
 
 def f1(x, y):
     denom = x**2 - y**2
@@ -18,7 +16,10 @@ def f1(x, y):
     return z
 
 def f2(x, y):
-    return (x**2 + y**2)/(x**2 + x*y + y**2)
+    demon = (x**2 + x*y + y**2)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        z = (x**2 + y**2)/demon
+    return z
 
 def f3(x, y):
     denom = (x**3*(y + 1)**3)
@@ -32,7 +33,11 @@ def f4(x, y):
 def f5(x, y):
     return (x**2 + 3*x**2)*np.e**(-x**2 - y**2)
 
-def plot_function_surface(f, x_start, x_stop, y_start, y_stop):
+def plot_function(f, x_start, x_stop, y_start, y_stop):
+    """
+    Creates a figure with two sublots (one contour plot and one surface plot)
+    """
+    # create x, y and z-values
     x = np.linspace(x_start, x_stop, 100)
     y = np.linspace(y_start, y_stop, 100)
     X, Y = np.meshgrid(x, y)
@@ -57,7 +62,7 @@ def plot_function_surface(f, x_start, x_stop, y_start, y_stop):
         ax2.set_ylabel('Y')
         ax2.set_title(f'{f.__name__} contour plot')
        
-    else:
+    else: # add valuescale
         cs = ax2.contourf(X, Y, Z, locator = ticker.LogLocator())
         plt.colorbar(cs)
         ax2.set_xlabel('X')
@@ -66,12 +71,12 @@ def plot_function_surface(f, x_start, x_stop, y_start, y_stop):
         
     fig.show()
     
-
-plot_function_surface(f1, 0, 2, 0, 2)
-plot_function_surface(f2, -1, 1, -1, 1)
-plot_function_surface(f3, -1, 1, -2, 0)
-plot_function_surface(f4, -3, 5, -3, 7)
-plot_function_surface(f5, -10, 10, -10, 10)
+# Create plots for all functions
+plot_function(f1, 0, 2, 0, 2)
+plot_function(f2, -1, 1, -1, 1)
+plot_function(f3, -1, 1, -2, 0)
+plot_function(f4, -3, 5, -3, 7)
+plot_function(f5, -3, 3, -3, 3)
 
 
 
