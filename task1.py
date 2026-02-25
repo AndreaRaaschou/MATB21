@@ -39,33 +39,32 @@ def plot_function_surface(f, x_start, x_stop, y_start, y_stop):
     Z = f(X, Y)
     
     # surface plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.plot_surface(X, Y, Z)
-    ax.set_title(f'{f.__name__} Surface plot')
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    fig.show()
-    
+    fig = plt.figure(figsize=(12, 5))
+    ax1 = fig.add_subplot(121, projection='3d')
+    ax1.plot_surface(X, Y, Z)
+    ax1.set_title(f'{f.__name__} Surface plot')
+    ax1.set_xlabel('X')
+    ax1.set_ylabel('Y')
+    ax1.set_zlabel('Z')
     
     # contour plot
+    ax2 = fig.add_subplot(122)
+    
     if np.any(Z <= 0): # if any values are 0 or negative - do not add valuescale
         Z = np.where(np.isfinite(Z), Z, np.nan)
-        fig, ax = plt.subplots()
-        cs = ax.contourf(X, Y, Z)
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_title(f'{f.__name__} contour plot')
-        fig.show()
+        cs = ax2.contourf(X, Y, Z)
+        ax2.set_xlabel('X')
+        ax2.set_ylabel('Y')
+        ax2.set_title(f'{f.__name__} contour plot')
+       
     else:
-        fig, ax = plt.subplots()
-        cs = ax.contourf(X, Y, Z, locator = ticker.LogLocator())
+        cs = ax2.contourf(X, Y, Z, locator = ticker.LogLocator())
         plt.colorbar(cs)
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_title(f'{f.__name__} contour plot')
-        fig.show()
+        ax2.set_xlabel('X')
+        ax2.set_ylabel('Y')
+        ax2.set_title(f'{f.__name__} contour plot')
+        
+    fig.show()
     
 
 plot_function_surface(f1, 0, 2, 0, 2)
