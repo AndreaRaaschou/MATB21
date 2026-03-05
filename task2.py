@@ -6,10 +6,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import task1 as t1
 
+
 DEBUG = False
-SINTEST_GRAD = True
-SINTEST_HESSIAN = True
-EQTEST_5 = True
+SINTEST_GRAD = False
+SINTEST_HESSIAN = False
+EQTEST_5 = False
 
 def numerical_partial_wrt_x(f, h=10**(-7)):
     '''
@@ -107,8 +108,9 @@ if SINTEST_GRAD:
     ))
     
     plot_changing_h(10**(-9), 10**(-1))
-    t1.create_surface_and_contour_plot(*t1.create_xyz(error_gradient, -np.pi, np.pi, -np.pi, np.pi), 
+    fig, ax1, ax2 = t1.create_surface_and_contour_plot(*t1.create_xyz(error_gradient, -np.pi, np.pi, -np.pi, np.pi), 
                                        'Error gradient (sin)')
+    plt.show()
 
 if SINTEST_HESSIAN:
     a, b = np.pi/4, np.pi/4
@@ -125,8 +127,9 @@ if SINTEST_HESSIAN:
     print("\nApproximated Hessian error (will be same for all entries):")
     print(numerical_hessian(sinus_test)(a, b)[0][0]+np.sin(a+b))
     
-    t1.create_surface_and_contour_plot(*t1.create_xyz(error_hessian, -np.pi, np.pi, -np.pi, np.pi), 
+    fig, ax1, ax2 = t1.create_surface_and_contour_plot(*t1.create_xyz(error_hessian, -np.pi, np.pi, -np.pi, np.pi), 
                                        'Error hessian (sin)')
+    plt.show()
     
     
           
