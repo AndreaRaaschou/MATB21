@@ -68,9 +68,16 @@ print("\nApproximated Hessian for starting point (0, 0):")
 print(f'{hessian1[0][0]}  {hessian1[0][1]}')
 print(f'{hessian1[1][0]}  {hessian1[1][1]}')
 
+print("\nEigenvalues for starting point (0.2,-4):")
+print(np.linalg.eigvals(hessian1))
+
 print("\nApproximated Hessian for starting point (0.2,-4):")
 print(f'{hessian2[0][0]}  {hessian2[0][1]}')
 print(f'{hessian2[1][0]}  {hessian2[1][1]}')
+
+print("\nEigenvalues for starting point (0.2,-4):")
+print(np.linalg.eigvals(hessian2))
+
 
 
 
