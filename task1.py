@@ -9,6 +9,8 @@ import numpy as np
 import  matplotlib.pyplot as plt
 from matplotlib import ticker
 
+MAKE_PLOTS = False
+
 def f1(x, y):
     with np.errstate(divide='ignore', invalid='ignore'):
         z = (x**2 - x*y) / (x**2 - y**2)
@@ -69,14 +71,18 @@ def create_surface_and_contour_plot(X, Y, Z, title):
         ax2.set_ylabel('Y')
         ax2.set_title(f'{title} contour plot')
         
-    fig.show()
+    return(fig, ax1, ax2)
     
 # Create plots for all functions
-create_surface_and_contour_plot(*create_xyz(f1, 0, 2, 0, 2), 'f1')
-create_surface_and_contour_plot(*create_xyz(f2, -1, 1, -1, 1), 'f2')
-create_surface_and_contour_plot(*create_xyz(f3, -1, 1, -2, 0), 'f3')
-create_surface_and_contour_plot(*create_xyz(f4, -3, 5, -3, 7), 'f4')
-create_surface_and_contour_plot(*create_xyz(f5, -3, 3, -3, 3), 'f5')
+if MAKE_PLOTS:
+    fig1, ax11, ax12 = create_surface_and_contour_plot(*create_xyz(f1, 0, 2, 0, 2), 'f1')
+    fig2, ax21, ax22 = create_surface_and_contour_plot(*create_xyz(f2, -1, 1, -1, 1), 'f2')
+    fig3, ax31, ax32 = create_surface_and_contour_plot(*create_xyz(f3, -1, 1, -2, 0), 'f3')
+    fig4, ax41, ax42 = create_surface_and_contour_plot(*create_xyz(f4, -3, 5, -3, 7), 'f4')
+    fig5, ax51, ax52 = create_surface_and_contour_plot(*create_xyz(f5, -3, 3, -3, 3), 'f5')
+    
+    plt.show()
+
 
 
 
