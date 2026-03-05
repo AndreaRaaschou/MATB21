@@ -107,7 +107,8 @@ if SINTEST_GRAD:
     ))
     
     plot_changing_h(10**(-9), 10**(-1))
-    t1.plot_function(error_gradient, -np.pi, np.pi, -np.pi, np.pi)
+    t1.create_surface_and_contour_plot(*t1.create_xyz(error_gradient, -np.pi, np.pi, -np.pi, np.pi), 
+                                       'Error gradient (sin)')
 
 if SINTEST_HESSIAN:
     a, b = np.pi/4, np.pi/4
@@ -124,7 +125,8 @@ if SINTEST_HESSIAN:
     print("\nApproximated Hessian error (will be same for all entries):")
     print(numerical_hessian(sinus_test)(a, b)[0][0]+np.sin(a+b))
     
-    t1.plot_function(error_hessian, -np.pi, np.pi, -np.pi, np.pi)
+    t1.create_surface_and_contour_plot(*t1.create_xyz(error_hessian, -np.pi, np.pi, -np.pi, np.pi), 
+                                       'Error hessian (sin)')
     
     
           
