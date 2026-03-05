@@ -60,9 +60,9 @@ def plot_3D_surface(x, y, z, title):
 def calculate_z(x, y):
     return fsolve(f, 0, args = (x, y))
 
-def evaluate_z():
-    x = np.linspace(-1, 1, 100)
-    y = np.linspace(-1, 1, 100)
+def evaluate_z(x_start, x_stop, y_start, y_stop):
+    x = np.linspace(x_start, x_stop, 100)
+    y = np.linspace(y_start, y_stop, 100)
     
     root = []
     for x_i in x:
@@ -72,6 +72,6 @@ def evaluate_z():
     return (x, y, root)
 
 
-plot_3D_surface(*evaluate_z(), 'Z surface plot')
+plot_3D_surface(*evaluate_z(-1, 1, -1, 1), 'Z surface plot')
 
 
