@@ -12,15 +12,12 @@ from scipy.optimize import fsolve
 def f(x, y, z):
     return x + 2*y + z + np.e**(2*z) - 1
 
-"""
-def taylor_polynomial(z, point=(0, 0) , degree=2):
-    def polynomial_return(x, y):
-        for i in range(0, degree+1):
-            for j in range(0, degree+1-i):
-                eee +=1
-    return(polynomial_return)
-"""
+def factorial(x):
+    if x == 0:
+        return(1)
+    return(x*factorial(x-1))
 
+# note: we have to modify our partial codes so we can't just import them from previous tasks
 def numerical_partial_wrt_x(f, h=10**(-7)):
     '''
     takes in function and precision and returns function of partial derivative with respect to x 
@@ -57,7 +54,7 @@ def plot_3D_surface(x, y, z, title):
     ax1.set_zlabel('Z')
     fig.show()
     
-def calculate_z(x, y):
+def calculate_z(f, x, y):
     return fsolve(f, 0, args = (x, y))
 
 def evaluate_z(x_start, x_stop, y_start, y_stop):
@@ -67,11 +64,72 @@ def evaluate_z(x_start, x_stop, y_start, y_stop):
     root = []
     for x_i in x:
         for y_i in y:
-            root.append(calculate_z(x_i,y_i))
+            root.append(calculate_z(f, x_i,y_i))
     root = np.reshape(np.array(root), (100, 100))
     return (x, y, root)
 
 
 plot_3D_surface(*evaluate_z(-1, 1, -1, 1), 'Z surface plot')
+
+def partial_multiindex(f, alpha = (0,0,0)):
+    temp = f
+    for i in range(alpha[0]):
+        temp = numerical_partial_wrt_x(temp)
+    for i in range(alpha[1]):
+        temp = numerical_partial_wrt_y(temp)
+    for i in range(alpha[2]):
+        temp = numerical_partial_wrt_z(temp)
+    return(temp)
+
+def partial_of_z_multiindex(f, alpha):
+    # what we want is the formula dz/dx = - df/dx / df/dz ball (x, y, z(x, y))
+    
+    return(0)
+
+def taylor_polynomial(f, point = (0, 0), degree = 2):
+    list_of_functions = []
+    for i in range(0, degree):
+        for j in range(0, degree-i):
+            list_of_functions.append(0)
+    def  return_function(x, y):
+        for i in list_of_functions:
+            sum += i(x, y)
+        return(sum)
+    
+    return(return_function)
+
+''' #this shit is functional and too wacky
+def taylor_polynomial_of_z(f, point=(0, 0) , degree=2):
+    def x_partials(temp, i = 0):
+        if i > degree:
+            return(temp)
+        def y_partials(temp, j = 0):
+            if i+j > degree:
+                return(temp)
+        return(y_partials(
+    return(return_polynomial)
+'''
+def onevartaylorfunctional(f, x = 0, degree = 0, max = 2):
+    if degree == max:
+        return(f)
+    return(lambda x, y, z :
+        numerical_partial_wrt_x(
+            onevartaylorfunctional(f, x, degree+1)
+            , h = 10**(-3))(x, y, z)
+        /factorial(degree)
+        + f(x, y, z))
+
+def twovartaylorfunctional(f, point = (0, 0), degree = 0, max= 2):
+    if degree == max:
+        return(f)
+    return(
+        lambda x, y, z :
+        numerical_partial_wrt_x(onevartaylorfunctional(f, x, degree+1), h = 10**(-3))(x, y, z)
+        /factorial(degree))
+
+
+
+
+print(onevartaylorfunctional(lambda x, y, z : np.exp(x), degree = 1)(0.2, 0, 0))
 
 
