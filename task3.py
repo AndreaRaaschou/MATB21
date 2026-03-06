@@ -44,10 +44,9 @@ def numerical_partial_wrt_z(f, h=10**(-7)):
     return(return_function)
 
 def plot_3D_surface(x, y, z, title):
-    X, Y = np.meshgrid(x, y)
     fig = plt.figure(figsize=(12, 5))
     ax1 = fig.add_subplot(121, projection='3d')
-    ax1.plot_surface(X, Y, z)
+    ax1.plot_surface(x, y, z)
     ax1.set_title(title)
     ax1.set_xlabel('X')
     ax1.set_ylabel('Y')
@@ -60,13 +59,14 @@ def calculate_z(f, x, y):
 def evaluate_z(x_start, x_stop, y_start, y_stop):
     x = np.linspace(x_start, x_stop, 100)
     y = np.linspace(y_start, y_stop, 100)
+    X, Y = np.meshgrid(x, y)
     
     root = []
     for x_i in x:
         for y_i in y:
             root.append(calculate_z(f, x_i,y_i))
     root = np.reshape(np.array(root), (100, 100))
-    return (x, y, root)
+    return (X, Y, root)
 
 
 plot_3D_surface(*evaluate_z(-1, 1, -1, 1), 'Z surface plot')
