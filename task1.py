@@ -9,7 +9,7 @@ import numpy as np
 import  matplotlib.pyplot as plt
 from matplotlib import ticker
 
-MAKE_PLOTS = False
+MAKE_PLOTS = True
 
 def f1(x, y):
     with np.errstate(divide='ignore', invalid='ignore'):

@@ -2,6 +2,7 @@
 """
 Created on Thu Mar  5 14:52:29 2026
 @author: andrearaaschou
+extra code that tries to implement the gradient descent algorithm to find local maxima
 """
 
 import numpy as np
