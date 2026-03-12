@@ -8,13 +8,13 @@ import task1 as t1
 
 
 DEBUG = False
-SINTEST_GRAD = True
-SINTEST_HESSIAN = True
-EQTEST_5 = True
+PRINT_APPROXIMATION_TESTS = True
+
 
 def numerical_partial_wrt_x(f, h=10**(-7)):
     '''
-    takes in function and precision and returns function of partial derivative with respect to x 
+    takes in function of precisely 2 variables and precision,
+    returns function of partial derivative with respect to x 
     '''
     def return_function(x, y):
         return((f(x+h, y) - f(x,y))/h)
@@ -23,7 +23,8 @@ def numerical_partial_wrt_x(f, h=10**(-7)):
 
 def numerical_partial_wrt_y(f, h=10**(-7)):
     '''
-    takes in function and precision and returns function of partial derivative with respect to y 
+    takes in function of precisely 2 variables and precision,
+    returns function of partial derivative with respect to y
     '''
     def return_function(x, y):
         return((f(x, y+h) - f(x,y))/h)
@@ -32,7 +33,8 @@ def numerical_partial_wrt_y(f, h=10**(-7)):
 
 def numerical_gradient(f, h=10**(-7)):
     '''
-    takes in function and precision and returns function of gradiant at a point
+    takes in function of precisely two variables precision,
+    returns function of gradiant 
     '''
     def return_function(x, y):
         return((
@@ -44,7 +46,8 @@ def numerical_gradient(f, h=10**(-7)):
 
 def numerical_hessian(f, h=10**(-7)):
     '''
-    takes in function and precision and returns the hessian
+    takes in function of precisely and precision,
+    returns the hessian 
     '''
     def return_function(x, y):
         return((
@@ -54,20 +57,27 @@ def numerical_hessian(f, h=10**(-7)):
     return (return_function)
 
 def sinus_test(x, y):
+    # for testing the approximations
     return(np.sin(x+y))
 
 def error_gradient(x,y):
-    error = (numerical_gradient(sinus_test)(x, y)[0] - np.cos(x + y), numerical_gradient(sinus_test)(x, y)[0] - np.cos(x + y))
+    # the error of the gradiant of the sinus function at a point
+    error = (
+        numerical_gradient(sinus_test)(x, y)[0] - np.cos(x + y),
+        numerical_gradient(sinus_test)(x, y)[1] - np.cos(x + y)
+    )
     error = np.linalg.norm(error, axis = 0)
     return error
 
 def error_hessian(x,y):
+    # the error of the hessian of the sinus function at a point,
+    # by symmetries we see the calculation simplifies to this
     error = np.abs(numerical_hessian(sinus_test, h=10**(-4))(x, y)[0][0] + np.sin(x + y)) * 2
     return error
 
 def plot_changing_h(start, stop):
     '''
-    takes in first and last h-values and plots the euclidean norm of the error 
+    takes in first and last h-values and plots the euclidean norm of the error for
     different h-values
     '''
     h = np.logspace(np.log10(start), np.log10(stop), 100)
@@ -89,7 +99,7 @@ def plot_changing_h(start, stop):
 
 
 
-if SINTEST_GRAD:
+if PRINT_APPROXIMATION_TESTS:
     a, b = np.pi/4, np.pi/4
     print('\n-------- sin(x + y) -----------')
     print("\nApproximated gradient:")
@@ -112,7 +122,7 @@ if SINTEST_GRAD:
                                        'Error gradient (sin)')
     plt.show()
 
-if SINTEST_HESSIAN:
+if PRINT_APPROXIMATION_TESTS:
     a, b = np.pi/4, np.pi/4
     hessian = numerical_hessian(sinus_test)(a, b)
     
@@ -133,7 +143,7 @@ if SINTEST_HESSIAN:
     
     
           
-if EQTEST_5:
+if PRINT_APPROXIMATION_TESTS:
     # Testing f5 which has critical points at (±1, 0)
     print('\n-------- (x^2 + 3x^2)e^(-x^2 - y^2) -----------')
     a, b = 1, 0

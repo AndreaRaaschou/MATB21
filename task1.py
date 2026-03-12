@@ -11,6 +11,8 @@ from matplotlib import ticker
 
 MAKE_PLOTS = True
 
+
+# defining all the functions so that we don't get divby0 errors
 def f1(x, y):
     with np.errstate(divide='ignore', invalid='ignore'):
         z = (x**2 - x*y) / (x**2 - y**2)
@@ -32,7 +34,16 @@ def f4(x, y):
 def f5(x, y):
     return (x**2 + 3*x**2)*np.e**(-x**2 - y**2)
 
+
 def create_xyz(f, x_start, x_stop, y_start, y_stop):
+    """
+    take in a function and boundarys,
+    return a list with
+    - a list with enenly spaced x values
+    - a list with enenly spaced y values
+    - a matrix with the f(x, y) values where x and why are at
+    corresponding indecies
+    """
     x = np.linspace(x_start, x_stop, 100)
     y = np.linspace(y_start, y_stop, 100)
     X, Y = np.meshgrid(x, y)
