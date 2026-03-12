@@ -163,16 +163,18 @@ if DEBUG:
 
     
 # Make plots
-plot_3D_surface(*evaluate_z(-1, 1, -1, 1), 
+bounds = (-1, 1, -1, 1)
+
+plot_3D_surface(*evaluate_z(*bounds), 
                 'Z surface plot')
 
-plot_3D_surface(*t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1),
+plot_3D_surface(*t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds),
     'Surface plot of second order Taylor polynomial')
 
-plot_3D_surface(t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1)[0],
-                t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1)[1],
-                taylor_error(evaluate_z(-1, 1, -1, 1)[2], 
-                             t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1)[2]),
+plot_3D_surface(t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[0],
+                t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[1],
+                taylor_error(evaluate_z(*bounds)[2], 
+                             t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[2]),
                 'Surface plot of error for Taylor approximation')
 
 
