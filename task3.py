@@ -9,6 +9,7 @@ import numpy as np
 import  matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 import task2 as t2
+import task1 as t1
 
 DEBUG = True
 
@@ -72,7 +73,7 @@ def evaluate_z(x_start, x_stop, y_start, y_stop):
     return (X, Y, root)
 
 
-plot_3D_surface(*evaluate_z(-1, 1, -1, 1), 'Z surface plot')
+
 
 
 ''' #anything past this point is just wrong and bad
@@ -152,9 +153,27 @@ def taylor_coefficients(f, point=(0, 0)):
     + x * y * t2.numerical_hessian(z_func)(*point)[1][0][0]
     + y **2 * t2.numerical_hessian(z_func)(*point)[1][1][0]/2 )
     return(polynomial)
+ 
+def taylor_error(Z, Taylor_Z):
+    error = np.abs(Z - Taylor_Z)
+    return error
 
 if DEBUG:
     a = taylor_coefficients(f)
+
+    
+# Make plots
+plot_3D_surface(*evaluate_z(-1, 1, -1, 1), 
+                'Z surface plot')
+
+plot_3D_surface(*t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1),
+    'Surface plot of second order Taylor polynomial')
+
+plot_3D_surface(t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1)[0],
+                t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1)[1],
+                taylor_error(evaluate_z(-1, 1, -1, 1)[2], 
+                             t1.create_xyz(taylor_coefficients(f, point = (0,0)), -1, 1, -1, 1)[2]),
+                'Surface plot of error for Taylor approximation')
 
 
 

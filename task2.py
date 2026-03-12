@@ -8,9 +8,9 @@ import task1 as t1
 
 
 DEBUG = False
-SINTEST_GRAD = False
-SINTEST_HESSIAN = False
-EQTEST_5 = False
+SINTEST_GRAD = True
+SINTEST_HESSIAN = True
+EQTEST_5 = True
 
 def numerical_partial_wrt_x(f, h=10**(-7)):
     '''
