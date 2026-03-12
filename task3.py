@@ -8,6 +8,9 @@ Task 3: Implicit functions
 import numpy as np
 import  matplotlib.pyplot as plt
 from scipy.optimize import fsolve
+import task2 as t2
+
+DEBUG = True
 
 def f(x, y, z):
     return x + 2*y + z + np.e**(2*z) - 1
@@ -71,6 +74,8 @@ def evaluate_z(x_start, x_stop, y_start, y_stop):
 
 plot_3D_surface(*evaluate_z(-1, 1, -1, 1), 'Z surface plot')
 
+
+''' #anything past this point is just wrong and bad
 def partial_multiindex(f, alpha = (0,0,0)):
     temp = f
     for i in range(alpha[0]):
@@ -98,7 +103,7 @@ def taylor_polynomial(f, point = (0, 0), degree = 2):
     
     return(return_function)
 
-''' #this shit is functional and too wacky
+ #this shit is functional and too wacky
 def taylor_polynomial_of_z(f, point=(0, 0) , degree=2):
     def x_partials(temp, i = 0):
         if i > degree:
@@ -108,7 +113,7 @@ def taylor_polynomial_of_z(f, point=(0, 0) , degree=2):
                 return(temp)
         return(y_partials(
     return(return_polynomial)
-'''
+
 def onevartaylorfunctional(f, x = 0, degree = 0, max = 2):
     if degree == max:
         return(f)
@@ -127,9 +132,29 @@ def twovartaylorfunctional(f, point = (0, 0), degree = 0, max= 2):
         numerical_partial_wrt_x(onevartaylorfunctional(f, x, degree+1), h = 10**(-3))(x, y, z)
         /factorial(degree))
 
+#print(onevartaylorfunctional(lambda x, y, z : np.exp(x), degree = 1)(0.2, 0, 0))
+'''
 
 
+def taylor_coefficients(f, point=(0, 0)):
+    z_func = lambda x, y: calculate_z(f, x, y)
+    if DEBUG:
+        print("constant coefficient:        ", z_func(*point))
+        print("first order x coefficient:   ", t2.numerical_gradient(z_func)(*point)[0][0])
+        print("first order y coefficient:   ", t2.numerical_gradient(z_func)(*point)[1][0])
+        print("second order x coefficient:  ", t2.numerical_hessian(z_func)(*point)[0][0][0]/2)
+        print("second order mixed coefficient:  ", t2.numerical_hessian(z_func)(*point)[1][0][0])
+        print("second order y coefficient:  ", t2.numerical_hessian(z_func)(*point)[1][1][0]/2)
+    polynomial = lambda x, y: (z_func(*point)[0]
+    + x * t2.numerical_gradient(z_func)(*point)[0][0]
+    + y * t2.numerical_gradient(z_func)(*point)[1][0]
+    + x **2 * t2.numerical_hessian(z_func)(*point)[0][0][0]/2
+    + x * y * t2.numerical_hessian(z_func)(*point)[1][0][0]
+    + y **2 * t2.numerical_hessian(z_func)(*point)[1][1][0]/2 )
+    return(polynomial)
 
-print(onevartaylorfunctional(lambda x, y, z : np.exp(x), degree = 1)(0.2, 0, 0))
+if DEBUG:
+    a = taylor_coefficients(f)
+
 
 
