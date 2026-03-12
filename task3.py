@@ -11,43 +11,19 @@ from scipy.optimize import fsolve
 import task2 as t2
 import task1 as t1
 
-DEBUG = True
+DEBUG = False
+PLOT_GRAPHS = True
 
 def f(x, y, z):
     return x + 2*y + z + np.e**(2*z) - 1
 
-def factorial(x):
-    if x == 0:
-        return(1)
-    return(x*factorial(x-1))
-
-# note: we have to modify our partial codes so we can't just import them from previous tasks
-def numerical_partial_wrt_x(f, h=10**(-7)):
-    '''
-    takes in function and precision and returns function of partial derivative with respect to x 
-    '''
-    def return_function(x, y, z):
-        return((f(x+h, y, z) - f(x,y, z))/h)
-    return(return_function)
-
-
-def numerical_partial_wrt_y(f, h=10**(-7)):
-    '''
-    takes in function and precision and returns function of partial derivative with respect to y 
-    '''
-    def return_function(x, y, z):
-        return((f(x, y+h, z) - f(x,y, z))/h)
-    return(return_function)
-
-def numerical_partial_wrt_z(f, h=10**(-7)):
-    '''
-    takes in function and precision and returns function of partial derivative with respect to z 
-    '''
-    def return_function(x, y, z):
-        return((f(x, y, z+h) - f(x,y, z))/h)
-    return(return_function)
 
 def plot_3D_surface(x, y, z, title):
+    '''
+    takes as arguments the list of x values, y values,
+    and marix of z values and the title
+    plots the surface. works best for functions of x and y
+    '''
     fig = plt.figure(figsize=(12, 5))
     ax1 = fig.add_subplot(121, projection='3d')
     ax1.plot_surface(x, y, z)
@@ -61,6 +37,12 @@ def calculate_z(f, x, y):
     return fsolve(f, 0, args = (x, y))
 
 def evaluate_z(x_start, x_stop, y_start, y_stop):
+    '''
+    evaluate z for 10 thousand evenly spaced points
+    between the start and stop values,
+    only works for specifically this z.
+    returns the X, Y, and Z arrays (z is a matrix) 
+    '''
     x = np.linspace(x_start, x_stop, 100)
     y = np.linspace(y_start, y_stop, 100)
     X, Y = np.meshgrid(x, y)
@@ -74,6 +56,12 @@ def evaluate_z(x_start, x_stop, y_start, y_stop):
 
 
 def taylor_coefficients(f, point=(0, 0)):
+    '''
+    finds the gradiant and hessian by using functions from task 2
+    it uses fsolve from scipy from calculate_z to find a function
+    for z. returns a function that is the taylor polynomial.
+    '''
+    # gradiant only work with 2 variable functions so have to simplify
     z_func = lambda x, y: calculate_z(f, x, y)
     if DEBUG:
         print("constant coefficient:        ", z_func(*point))
@@ -101,17 +89,18 @@ if DEBUG:
 # Make plots
 bounds = (-1, 1, -1, 1)
 
-plot_3D_surface(*evaluate_z(*bounds), 
-                'Z surface plot')
-
-plot_3D_surface(*t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds),
-    'Surface plot of second order Taylor polynomial')
-
-plot_3D_surface(t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[0],
-                t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[1],
-                taylor_error(evaluate_z(*bounds)[2], 
-                             t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[2]),
-                'Surface plot of error for Taylor approximation')
+if PLOT_GRAPHS:
+    plot_3D_surface(*evaluate_z(*bounds), 
+                    'Z surface plot')
+    
+    plot_3D_surface(*t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds),
+                 'Surface plot of second order Taylor polynomial')
+    
+    plot_3D_surface(t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[0],
+                    t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[1],
+                    taylor_error(evaluate_z(*bounds)[2], 
+                                t1.create_xyz(taylor_coefficients(f, point = (0,0)), *bounds)[2]),
+                    'Surface plot of error for Taylor approximation')
 
 
 
